@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trang tuyển Tin học</title>
+  <link rel="stylesheet" href="../static/style.css">
+  <link rel="stylesheet" href="../static/profile.css">
+  <!-- <link rel="stylesheet" href="../static/problem.css"> -->
+</head>
+<body>
+
+  <header>
+    <div id="menu-toggle">
+      <img src="/avatar">
+    </div>
+    <div>Đội Tuyển Tin học THPT Thạch Thành III</div>
+  </header>
+
+  <div id="side-panel">
+    <div class="nav-item active" id="nav-home">Trang chủ</div>
+    <div class="nav-item" id="nav-baitap-kithi">Bài tập & kỳ thi</div>
+    <div class="nav-item" id="nav-rank">Xếp hạng</div>
+    {{ profile | safe }}
+  </div>
+
+  <main>
+    <div class="section active" id="home">
+
+      <div class="post">
+        <div class="post-header">
+          <img src="https://i.pravatar.cc/100" class="avatar" alt="avatar" />
+          <div class="user-info">
+            <span class="username">Nguyễn Văn A</span>
+            <span class="time">2 giờ trước</span>
+          </div>
+        </div>
+        <div class="post-content">
+          Thông báo : tối nay có contest !
+        </div>
+        <img src="https://placekitten.com/500/300" class="post-image" alt="ảnh bài đăng" />
+        <div class="post-actions">
+          <button>👍 Thích</button>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="section" id="baitap-kithi">
+        <div class="tab-container">
+          <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('baitap')">Bài tập</button>
+            <button class="tab-btn" onclick="switchTab('kythi')">Kỳ thi</button>
+          </div>
+
+          <!-- Nội dung Tab Bài tập -->
+          <div id="baitap" class="tab-content active">
+            <h2>📘 Danh sách bài tập</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã bài tập</th>
+                  <th>Tên Bài Tập</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{ problem_list | safe }}
+              </tbody>        
+            </table>
+          </div>
+
+          <!-- Nội dung Tab Kỳ thi -->
+          <div id="kythi" class="tab-content">
+            <h2>📝 Danh sách kỳ thi</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên Kỳ Thi</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Thi giữa kỳ Tin học 2025</td>
+                  <td><button class="view-button">Vào thi</button></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Thi cuối kỳ Tin học 2025</td>
+                  <td><button class="view-button">Vào thi</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+     </div>
+    
+    <div class="section" id="rank">
+      Bảng xếp hạng hiện tại sẽ hiển thị tại đây.
+    </div>
+
+    <div class="section" id="profile">
+      {{ profile | safe }}
+    </div>
+    
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Đội tuyển Tin học THPT Thạch Thành III</p>
+  </footer>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+    const sections = document.querySelectorAll('.section');
+    const sidePanel = document.getElementById('side-panel');
+    const menuToggle = document.getElementById('menu-toggle');
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        document.getElementById("menu-toggle").click() ;
+        const targetId = item.id.replace('nav-', '');
+
+        // Toggle active section
+        sections.forEach(section => {
+          section.classList.toggle('active', section.id === targetId);
+        });
+
+        // Toggle active nav item
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+     function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    menuToggle.addEventListener('click', () => {
+      sidePanel.classList.toggle('open');
+    });
+    // document.getElementById("menu-toggle").click() ;
+    // document.getElementById("nav-home").click() ;
+  </script>
+
+</body>
+</html>

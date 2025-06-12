@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đăng nhập</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #eef1f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      padding: 30px;
+      width: 420px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .checkbox-group input {
+      margin-right: 8px;
+    }
+
+    .checkbox-group label {
+      font-weight: normal;
+      color: #555;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #215188;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <form class="form-container" action="/submit" method="POST">
+    <h2>Đăng nhập vào tài khoản</h2>
+
+    <label for="username">Tên đăng nhập hoặc Email:</label>
+    <input type="text" id="username" name="username" required value="{{ username }}" />
+
+    <label for="password">Mật khẩu:</label>
+    <input type="password" id="password" name="password" required value="{{ password }}" />
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="remember" name="remember" {{ 'checked' if remember else '' }}>
+      <label for="remember">Ghi nhớ đăng nhập</label>
+    </div>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="hide" name="hide">
+      <label for="hide">Hiện mật khẩu</label>
+    </div>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <button type="submit" name="action" value="login">Đăng nhập</button>
+
+    <a href="/register">Chưa có tài khoản? Đăng ký ngay</a>
+  </form>
+
+  <script>
+    document.getElementById('hide').addEventListener('change', function () {
+      const passwordField = document.getElementById('password');
+      passwordField.type = this.checked ? 'text' : 'password';
+    });
+  </script>
+</body>
+</html>

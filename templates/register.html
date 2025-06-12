@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đăng ký tài khoản</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* height: 100vh; */
+    }
+
+    .register-container {
+      background-color: #ffffff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .register-container h2 {
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .register-container label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .register-container input[type="text"],
+    .register-container input[type="password"],
+    .register-container input[type="file"],
+    .register-container input[type="tel"],
+    .register-container input[type="email"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .register-container input:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    .register-container input[type="checkbox"] {
+      margin-right: 6px;
+      transform: scale(1.1);
+    }
+
+    .register-container .checkbox-label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 16px;
+      color: #555;
+    }
+
+    .register-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .register-container button:hover {
+      background-color: #0056b3;
+    }
+
+    .register-container p.error {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: -8px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .avatar-preview {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .avatar-preview img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <form class="register-container" action="./submit" method="POST" enctype="multipart/form-data">
+    <h2>Chào mừng bạn đến với trang web</h2>
+    <h2>Đăng ký tài khoản</h2>
+
+    <label for="fullname">Họ và Tên:</label>
+    <input type="text" id="fullname" name="fullname" required value="{{ fullname }}">
+
+    <label for="phone">Số điện thoại:</label>
+    <input type="tel" id="phone" name="phone" required value="{{ phone }}">
+
+    <label for="avatar">Ảnh đại diện:</label>
+    <input type="file" id="avatar" name="avatar" accept="image/*">
+    <div class="avatar-preview" id="avatarPreview" style="display: none;">
+      <img id="avatarImage" src="/avatar/{{ user_id }}" alt="Xem trước ảnh đại diện">
+    </div>
+
+    <label for="username">Tên đăng nhập:</label>
+    <input type="text" id="username" name="username" required value="{{ username }}">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required value="{{ email }}">
+
+    <label for="password">Mật khẩu:</label>
+    <input type="password" id="password" name="password" required value="{{ password }}">
+
+    <label for="confirm_password">Xác nhận mật khẩu:</label>
+    <input type="password" id="confirm_password" name="confirm_password" required value="{{ confirm_password }}">
+
+    <div class="checkbox-label">
+      <input type="checkbox" id="hide" name="hide">
+      <label for="hide">Hiện mật khẩu</label>
+    </div>
+
+    <p class="error">{{ error }}</p>
+
+    <button type="submit" name="action" value="register">Đăng ký</button>
+  </form>
+
+  <script>
+    // Hiện/ẩn mật khẩu
+    document.getElementById('hide').addEventListener('change', function () {
+      const passwordField = document.getElementById('password');
+      const confirmPasswordField = document.getElementById('confirm_password');
+      const isVisible = this.checked;
+      passwordField.type = isVisible ? 'text' : 'password';
+      confirmPasswordField.type = isVisible ? 'text' : 'password';
+    });
+
+    // Xem trước ảnh đại diện
+    document.getElementById('avatar').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      const previewContainer = document.getElementById('avatarPreview');
+      const img = document.getElementById('avatarImage');
+
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          img.src = e.target.result;
+          previewContainer.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewContainer.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
